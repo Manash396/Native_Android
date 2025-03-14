@@ -1,6 +1,8 @@
 package com.example.chat.presentation.component
 
 
+import android.graphics.Color
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.example.chat.domain.chat.BlueToothDevice
 import com.example.chat.presentation.BluetoothUIState
 import androidx.compose.ui.unit.sp
+import com.example.chat.ui.theme.Pink40
 
 @Composable
 fun DeviceScreen(
@@ -88,6 +91,7 @@ fun BluetoothDeviceList(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
+            .background(Pink40)
     ) {
         item{
             Text(
