@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -33,8 +32,8 @@ import com.example.chat.presentation.BluetoothUIState
 @Composable
 fun ChatScreen(
     state: BluetoothUIState,
-    onDisconnect :() -> Unit,
-    onSendMessage: (String) -> Unit
+    onDisconnect: () -> Unit,
+    onSendMessage: (String) -> Unit,
 ){
    val message  = rememberSaveable {
        mutableStateOf("")
@@ -111,6 +110,8 @@ fun ChatScreen(
                 onSendMessage(message.value.toString())
                 message.value = ""
                 keyboardController?.hide()
+
+
             }) {
                 Icon(imageVector = Icons.Default.Check, contentDescription = "Send Message")
             }

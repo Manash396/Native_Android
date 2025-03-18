@@ -23,6 +23,7 @@ class BluetoothDataTransferService (
              while (true){
                  val byteCount = try {
                      socket.inputStream.read(buffer)
+
                  }catch (e : IOException){
                       throw TransferFailedException()
                  }

@@ -2,6 +2,8 @@ package com.example.chat.data.chat
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
@@ -11,7 +13,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationCompat
 import com.example.chat.domain.chat.BlueToothController
 import com.example.chat.domain.chat.BlueToothDevice
 import com.example.chat.domain.chat.BluetoothDeviceDomain
@@ -48,6 +52,9 @@ class AndroidBlueToothController(private val context: Context) : BlueToothContro
     private val bluetoothManager by lazy {
         context.getSystemService(BluetoothManager::class.java)
 }
+    private val notificationManager by lazy {
+        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
     private val bluetoothAdapter by lazy {
         bluetoothManager?.adapter
     }
@@ -245,6 +252,30 @@ class AndroidBlueToothController(private val context: Context) : BlueToothContro
 
         bluetoothDataTransferService?.sendMessage(bluetoothMessage.toByteArray())
         return bluetoothMessage
+    }
+
+   override fun showNotification(message: String){
+       // creating a chennel
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =    NotificationChannel(
+                "channel_name",
+               "channel_id",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = NotificationCompat.Builder(
+           context,"channel_id"
+        ).setContentTitle("New Message")
+            .setContentText(message)
+            .setSmallIcon(android.R.drawable.ic_notification_overlay)
+            .build()
+
+        notificationManager.notify(1,notification)
+
+
+
     }
 
     companion object{

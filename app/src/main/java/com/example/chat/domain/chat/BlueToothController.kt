@@ -12,7 +12,7 @@ interface BlueToothController {
     val error : SharedFlow<String>
     fun startDiscovery()
     fun stopDiscovery()
-
+    fun showNotification(message: String)
     fun startBluetoothServer() : Flow<ConnectionResult>
     fun connectToDevice(device: BlueToothDevice) : Flow<ConnectionResult>
     fun closeConnection()

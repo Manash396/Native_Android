@@ -52,6 +52,15 @@ class BluetoothViewModel @Inject constructor(
 
     }
 
+    // show notification method
+    fun shownotification(message : String){
+        if(LifeCycleObserver.isAppinForeground){
+            return
+        }
+       // first i have to get notification manager
+      blueToothController.showNotification(message)
+    }
+
     fun startScan(){
         blueToothController.startDiscovery()
     }
@@ -88,11 +97,15 @@ class BluetoothViewModel @Inject constructor(
                 }
 
                 is ConnectionResult.TransferSucceeded ->{
+
                     _state.update {
                         it.copy(
                             message = it.message + result.message
                         )
                     }
+
+                    shownotification(result.message.message)
+
                 }
 
                 is ConnectionResult.Error -> {
@@ -147,4 +160,8 @@ class BluetoothViewModel @Inject constructor(
         deviceConnectionJob = blueToothController.startBluetoothServer()
             .listen()
     }
+
+
+
+
 }

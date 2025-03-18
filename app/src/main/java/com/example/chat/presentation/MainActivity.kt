@@ -1,41 +1,47 @@
 package com.example.chat.presentation
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
+import android.content.Context
 import android.content.Intent
-import android.graphics.Paint
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.key
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.view.WindowCompat
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import com.example.chat.ui.theme.ChatTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.chat.domain.chat.BluetoothPermissionHandler
 import com.example.chat.presentation.component.ChatScreen
 import com.example.chat.presentation.component.DeviceScreen
+
 
 
 @AndroidEntryPoint
@@ -58,6 +64,7 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
         enableEdgeToEdge()
 
       requestBluetoothPermission()
+
 
         setContent {
             ChatTheme {
@@ -102,7 +109,7 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
                             ChatScreen(
                                 state = state,
                                 onDisconnect = viewModel :: disconnectFromDevice ,
-                                onSendMessage = viewModel :: sendMessage
+                                onSendMessage = viewModel :: sendMessage,
                             )
                         }
                           else ->{
@@ -146,12 +153,20 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            permissionlauncher.launch(
-                arrayOf(
-                    Manifest.permission.BLUETOOTH_SCAN,
-                    Manifest.permission.BLUETOOTH_CONNECT,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                permissionlauncher.launch(
+                    arrayOf(
+                        Manifest.permission.BLUETOOTH_SCAN,
+                        Manifest.permission.BLUETOOTH_CONNECT,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    )
                 )
-            )
+            }
         }
     }
+
+
+
+
+
 }
