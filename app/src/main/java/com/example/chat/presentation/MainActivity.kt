@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
 
       requestBluetoothPermission()
 
-        Log.d("radhe_krishna","please not let me down ")
+
         setContent {
             ChatTheme {
                 val viewModel = hiltViewModel<BluetoothViewModel>()
