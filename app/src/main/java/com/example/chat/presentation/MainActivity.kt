@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
                     if (state.isConnected){
                         Toast.makeText(
                             applicationContext,
-                            "Device is connected!",
+                            "Device is connected! okay",
                             Toast.LENGTH_LONG
                         ).show()
                     }
