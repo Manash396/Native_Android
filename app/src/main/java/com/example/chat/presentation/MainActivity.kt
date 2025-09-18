@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() , BluetoothPermissionHandler
 
       requestBluetoothPermission()
 
-
+        Log.d("radhe_krishna","please not let me down ")
         setContent {
             ChatTheme {
                 val viewModel = hiltViewModel<BluetoothViewModel>()
